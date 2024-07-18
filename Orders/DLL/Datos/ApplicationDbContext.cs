@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using DLL.Models;
+using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DLL.Datos;
+namespace DAL.Datos;
 
 public partial class ApplicationDbContext : DbContext
 {
