@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using DAL.Models;
-using Entities.Models;
-using System.Xml.Linq;
 
-
-namespace Entities.Models;
+namespace DAL.Models;
 
 [Table("OrderItem")]
 [Index("OrderId", Name = "IndexOrderItemOrderId")]
