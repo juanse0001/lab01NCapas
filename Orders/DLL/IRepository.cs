@@ -25,6 +25,5 @@ namespace DAL
 
         //Para recuperar un conjunto de entidad en base en un criterio
         Task<List<TEntity>>FilterAsync<TEntity>(Expression<Func<TEntity, bool>> criteria) where TEntity: class; 
-
     }
 }
