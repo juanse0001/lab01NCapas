@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Models;
+namespace Entities.Models;
 
 [Table("Order")]
 [Index("CustomerId", Name = "IndexOrderCustomerId")]

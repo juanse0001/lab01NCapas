@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Models;
+namespace Entities.Models;
 
 [Table("Product")]
 [Index("ProductName", Name = "IndexProductName")]
