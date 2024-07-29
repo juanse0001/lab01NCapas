@@ -10,6 +10,12 @@
   <ItemGroup>
     <ProjectReference Include="..\DLL\DAL.csproj" />
     <ProjectReference Include="..\Entities\Entities.csproj" />
-  </ItemGroup>	
-		
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
