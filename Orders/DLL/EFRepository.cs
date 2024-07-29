@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class EFRepository : IRepository
+    public class EFRepository : IRepository, IDisposable
     {
         //Llamada a la clase de contexto
         ApplicationDbContext _context;
@@ -77,7 +77,7 @@ namespace DAL
             return Result.ToList();
         }
 
-        public async Task<TEntity> RetrieveAsync<TEntity>(Expression<Func<TEntity, bool>> criteria) where TEntity : class
+        public async Task<TEntity> RetreiveAsync<TEntity>(Expression<Func<TEntity, bool>> criteria) where TEntity : class
         {
             TEntity Result = null;
             try
@@ -97,7 +97,7 @@ namespace DAL
             try
             {
                 _context.Entry<TEntity>(toUpdate).State = EntityState.Modified;
-                Result = await _context.SaveChangesAsync() < 0;
+                Result = await _context.SaveChangesAsync() > 0;
             }
             catch(DbException)
             {
