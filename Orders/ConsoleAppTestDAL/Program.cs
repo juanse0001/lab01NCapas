@@ -14,8 +14,9 @@ namespace ConsoleAppTestDAL
         {
             //await CreateAsync().ConfigureAwait(false);
             //await RetreiveAsync().ConfigureAwait(false);
-            UpdateAsync().GetAwaiter().GetResult();
+            //UpdateAsync().GetAwaiter().GetResult();
             //await UpdateAsync.ConfigureAwait(false);
+            await FilterAsync().ConfigureAwait(false);
 
         }
 
@@ -46,16 +47,16 @@ namespace ConsoleAppTestDAL
         }
         static async Task RetreiveAsync()
         {
-            using (var repository = RepositoryFactory.CreateRepository()) 
+            using (var repository = RepositoryFactory.CreateRepository())
             {
                 try
                 {
                     Expression<Func<Customer, bool>> criteria = c => c.FirstName == "Vladimir" && c.LastName == "Cortés";
                     var customer = await repository.RetreiveAsync(criteria);
 
-                    if (customer != null) 
+                    if (customer != null)
                     {
-                            Console.WriteLine($"Retriveid Customer:{customer.FirstName} \t {customer.LastName} \t City: {customer.City} \t Country: {customer.Country}");
+                        Console.WriteLine($"Retriveid Customer:{customer.FirstName} \t {customer.LastName} \t City: {customer.City} \t Country: {customer.Country}");
                     }
                     else
                     {
@@ -71,7 +72,7 @@ namespace ConsoleAppTestDAL
         static async Task UpdateAsync()
         {
             //Supuesto: Existe el objeto a modificar
-            using (var repository = RepositoryFactory.CreateRepository()) 
+            using (var repository = RepositoryFactory.CreateRepository())
             {
                 var customerToUpdate = await repository.RetreiveAsync<Customer>(c => c.Id == 78);
                 if (customerToUpdate != null)
@@ -101,5 +102,18 @@ namespace ConsoleAppTestDAL
                 }
             }
         }
+        static async Task FilterAsync()
+        {
+            using (var repository = RepositoryFactory.CreateRepository())
+            {
+                Expression<Func<Customer, bool>> criteria = c => c.Country == "USA";
+                var Customers = await repository.FilterAsync(criteria);
+                foreach (var customer in Customers)
+                {
+                    Console.WriteLine($"Customer {customer.FirstName}    {customer.LastName} \t from:{customer.City}");
+                }
+            }
+        }
     }
 }
+
