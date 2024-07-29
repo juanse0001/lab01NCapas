@@ -97,7 +97,7 @@ namespace DAL
             try
             {
                 _context.Entry<TEntity>(toUpdate).State = EntityState.Modified;
-                Result = await _context.SaveChangesAsync() < 0;
+                Result = await _context.SaveChangesAsync() > 0;
             }
             catch(DbException)
             {
