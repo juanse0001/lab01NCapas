@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DAL;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace ConsoleAppTestDAL
@@ -16,7 +17,8 @@ namespace ConsoleAppTestDAL
             //await RetreiveAsync().ConfigureAwait(false);
             //UpdateAsync().GetAwaiter().GetResult();
             //await UpdateAsync.ConfigureAwait(false);
-            await FilterAsync().ConfigureAwait(false);
+            //await FilterAsync().ConfigureAwait(false);
+            await DeleteAsync().ConfigureAwait(false);
 
         }
 
@@ -111,6 +113,19 @@ namespace ConsoleAppTestDAL
                 foreach (var customer in Customers)
                 {
                     Console.WriteLine($"Customer {customer.FirstName}    {customer.LastName} \t from:{customer.City}");
+                }
+            }
+        }
+        static async Task DeleteAsync()
+        {
+            using (var repository = RepositoryFactory.CreateRepository())
+            {
+                Expression<Func<Customer, bool>> criteria = customer => customer.Id == 94;
+                var customerToDelete = await repository.RetreiveAsync(criteria);
+                if (customerToDelete != null)
+                {
+                    bool deleted = await repository.DeleteAsync(customerToDelete);
+                    Console.WriteLine(deleted ? "Customer successfull. " : "Failed Customer");
                 }
             }
         }
