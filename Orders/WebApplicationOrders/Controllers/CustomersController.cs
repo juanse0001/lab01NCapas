@@ -7,7 +7,7 @@ namespace WebApplicationOrders.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly CustomerProxy _proxy;  
+        private readonly ICustomerProxy _proxy;  
         public CustomersController() 
         {
             this._proxy = new CustomerProxy();
@@ -16,6 +16,12 @@ namespace WebApplicationOrders.Controllers
         {
             var customers = await _proxy.GetAllAsync();
             return View(customers);
+        }
+        //Crete 
+        //GET: Customers/Create
+        public ActionResult Create()
+        {
+            return View();
         }
     }
 }

@@ -3,6 +3,7 @@ using ProxyService.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -16,10 +17,10 @@ namespace ProxyService
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7202/api/Customer/") // Asegúrate de que esta URL coincide con la configuración de tu API
+                BaseAddress = new Uri("https://localhost:7128/api/Customer/") // Asegúrate de que esta URL coincida con la configuración de tu servicio
             };
             _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
         public async Task<Customer> CreateAsync(Customer customer)
         {
@@ -63,7 +64,7 @@ namespace ProxyService
                 var json = await response.Content.ReadAsStringAsync();
                 return JsonSerializer.Deserialize<List<Customer>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
-            catch (global::System.Exception ex)
+            catch (Exception ex)
             {
                 // Manejar la excepción (e.g., logging)
                 Console.WriteLine($"Error: {ex.Message}");
