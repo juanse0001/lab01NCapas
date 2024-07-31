@@ -21,7 +21,6 @@ namespace ConsoleAppTestDAL
             await DeleteAsync().ConfigureAwait(false);
 
         }
-
         static async Task CreateAsync()
         {
             // Crear una instancia de un nuevo cliente
