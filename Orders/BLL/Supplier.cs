@@ -8,22 +8,21 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace BLL
 {
-    public class Customers
+    public class Supplier
     {
-        public async Task<Customer> CreateAsync(Customer customer)
+        public async Task<Customer> CreateAsync(Supplier supplier)
         {
-            Customer customerResult = null;
+            Supplier supplierResult = null;
             using (var repository = RepositoryFactory.CreateRepository())
             {
-                //Buscar si el nombre del cliente existe
-                Customer customerSearch = await repository.RetreiveAsync<Customer>(c => c.FirstName == customer.FirstName);
-                if (customerSearch == null) 
+                //Buscar si el nombre del provedor existe
+                Supplier supplierSearch = await repository.RetreiveAsync<Supplier>(s => s.ContactName == supplier.ContactName);
+                if (supplierSearch == null)
                 {
                     //No esxite podemos crearlo
-                    customerResult = await repository.CreateAsync(customer);
+                    supplierResult = await repository.CreateAsync(supplier);
                 }
                 else
                 {
@@ -31,9 +30,9 @@ namespace BLL
                     //Para notificar que el cliente ya existe.
                     //Podriamos Crear incluso una cap de exepciones
                     //Perzonalizada y consumirlas desde otras capas
-                    CustomerExceptions.ThrowCustomerAlreadyExistsException(customerSearch.FirstName, customerSearch.LastName);
+                    SupplierExceptions.ThrowSupplierAlreadyExistsException(supplierSearch.ContactName, supplierSearch.ContactName);
                 }
-                return customerResult!;
+                return supplierResult!;
             }
         }
 
@@ -112,3 +111,4 @@ namespace BLL
         }
     }
 }
+
