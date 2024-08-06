@@ -77,6 +77,44 @@ namespace WebApplicationOrders.Controllers
         }
 
 
+        //Delete
+
+        // GET: Customer/Delete/5
+        // O referencias
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var customer = await _proxy.GetByIdAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return View(customer);
+        }
+
+        // POST: Customers/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        // O referencias
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                var result = await _proxy.DeleteAsync(id);
+                if (!result)
+                {
+                    return RedirectToAction("Error", new { message = "No se puede eliminar el cliente porque tiene facturas asociadas." });
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Error", new { message = ex.Message });
+            }
+        }
+
+
+
         //POST: Customer/edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
