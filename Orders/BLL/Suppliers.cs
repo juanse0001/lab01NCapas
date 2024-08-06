@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class Supplier
+    public class Suppliers
     {
-        public async Task<Customer> CreateAsync(Supplier supplier)
+        public async Task<Supplier> CreateAsync(Supplier supplier)
         {
             Supplier supplierResult = null;
             using (var repository = RepositoryFactory.CreateRepository())
@@ -21,7 +21,7 @@ namespace BLL
                 Supplier supplierSearch = await repository.RetreiveAsync<Supplier>(s => s.ContactName == supplier.ContactName);
                 if (supplierSearch == null)
                 {
-                    //No esxite podemos crearlo
+                    //No existe podemos crearlo
                     supplierResult = await repository.CreateAsync(supplier);
                 }
                 else
@@ -30,60 +30,60 @@ namespace BLL
                     //Para notificar que el cliente ya existe.
                     //Podriamos Crear incluso una cap de exepciones
                     //Perzonalizada y consumirlas desde otras capas
-                    SupplierExceptions.ThrowSupplierAlreadyExistsException(supplierSearch.ContactName, supplierSearch.ContactName);
+                    SupplierExceptions.ThrowSupplierAlreadyExistsException(supplierSearch.ContactTitle, supplierSearch.ContactName);
                 }
                 return supplierResult!;
             }
         }
 
-        public async Task<Customer> RetrieveByIDAsync(int id)
+        public async Task<Supplier> RetrieveByIDAsync(int id)
         {
-            Customer result = null;
+            Supplier result = null;
 
             using (var repository = RepositoryFactory.CreateRepository())
             {
-                Customer customer = await repository.RetreiveAsync<Customer>(c => c.Id == id);
+                Supplier supplier = await repository.RetreiveAsync<Supplier>(s => s.Id == id);
 
                 // Check if customer was found
-                if (customer == null)
+                if (supplier == null)
                 {
                     // Throw a CustomerNotFoundException (assuming you have this class)
-                    CustomerExceptions.ThrowInvalidCustomerIdException(id);
+                    SupplierExceptions.ThrowInvalidCustomerIdException(id);
                 }
-                return customer!;
+                return supplier!;
             }
         }
-        public async Task<List<Customer>> RetreiveAllAsync()
+        public async Task<List<Supplier>> RetreiveAllAsync()
         {
-            List<Customer> Result = null;
+            List<Supplier> Result = null;
 
             using (var r = RepositoryFactory.CreateRepository())
             {
                 // Define el criterio de filtro para obtener todos los clientes.
-                Expression<Func<Customer, bool>> allCustomersCriteria = x => true;
-                Result = await r.FilterAsync<Customer>(allCustomersCriteria);
+                Expression<Func<Supplier, bool>> allSupplierCriteria = x => true;
+                Result = await r.FilterAsync<Supplier>(allSupplierCriteria);
             }
 
             return Result;
         }
-        public async Task<bool> UpdateAsync(Customer customer)
+        public async Task<bool> UpdateAsync(Supplier supplier)
         {
             bool Result = false;
             using (var repository = RepositoryFactory.CreateRepository())
             {
                 // Validar que el nombre del cliente no exista
-                Customer customerSearch = await repository.RetreiveAsync<Customer>
-                    (c => c.FirstName == customer.FirstName && c.Id != customer.Id);
-                if (customerSearch == null)
+                Supplier supplierSearch = await repository.RetreiveAsync<Supplier>
+                    (s => s.ContactName == supplier.ContactName && s.Id != supplier.Id);
+                if (supplierSearch == null)
                 {
                     // No existe
-                    Result = await repository.UpdateAsync(customer);
+                    Result = await repository.UpdateAsync(supplier);
                 }
                 else
                 {
                     // Podemos implementar alguna lógica para
                     // indicar que no se pudo modificar
-                    CustomerExceptions.ThrowCustomerAlreadyExistsException(customerSearch.FirstName, customerSearch.LastName);
+                    SupplierExceptions.ThrowSupplierAlreadyExistsException(supplierSearch.ContactName, supplierSearch.ContactTitle);
                 }
             }
             return Result;

@@ -8,7 +8,7 @@ namespace BLL.Exceptions
 {
     public class SupplierExceptions : Exception
     {
-        // You can add more static methods here to throw other customer-related exceptions
+        // You can add more static methods here to throw other supplier-related exceptions
 
         public SupplierExceptions()
         {
@@ -21,9 +21,9 @@ namespace BLL.Exceptions
             throw new Exception(message);
         }
 
-        public static void ThrowSupplierAlreadyExistsException(string CompanyName, string ContactName)
+        public static void ThrowSupplierAlreadyExistsException(string ContactTitle, string ContactName)
         {
-            throw new SupplierExceptions($"A Suppleir with the name already exists: {CompanyName} {ContactName}.");
+            throw new SupplierExceptions($"A Suppleir with the name already exists: {ContactTitle} {ContactName}.");
         }
 
         public static void ThrowInvalidCustomerIdException(int id)
