@@ -105,6 +105,17 @@ namespace WebApplicationOrders.Controllers
             }
             return View(customer);
         }
+        //Details
+        //GET: /Customers/Details/5
+        public async Task<IActionResult> Details(int Id) 
+        {
+            var customer = await _proxy.GetByIdAsync(Id);
+            if (customer == null) 
+            {
+                return NotFound();
+            }
+            return View(customer);
+        }
 
 
         //Error
