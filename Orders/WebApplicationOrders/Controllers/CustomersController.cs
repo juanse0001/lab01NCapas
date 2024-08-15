@@ -64,19 +64,6 @@ namespace WebApplicationOrders.Controllers
             return View(customer);
         }
 
-        //Details
-        //GET: /Customer/Details/5
-        public async Task<IActionResult> Details(int Id) 
-        {
-            var customers = await _proxy.GetByIdAsync(Id);
-            if(customers == null)
-            {
-                return NotFound();
-            }
-            return View(customers);
-        }
-
-
         //Delete
 
         // GET: Customer/Delete/5
@@ -154,8 +141,6 @@ namespace WebApplicationOrders.Controllers
             }
             return View(customer);
         }
-
-
         //Error
         public IActionResult Error(string message) 
         {

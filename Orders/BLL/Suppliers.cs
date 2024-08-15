@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BLL
@@ -17,22 +16,21 @@ namespace BLL
             Supplier supplierResult = null;
             using (var repository = RepositoryFactory.CreateRepository())
             {
-                //Buscar si el nombre del provedor existe
-                Supplier supplierSearch = await repository.RetreiveAsync<Supplier>(s => s.ContactName == supplier.ContactName);
+                // Buscar si el nombre de la empresa ya existe
+                Supplier supplierSearch = await repository.RetreiveAsync<Supplier>(
+                    s => s.CompanyName == supplier.CompanyName && s.Country == supplier.Country);
+
                 if (supplierSearch == null)
                 {
-                    //No existe podemos crearlo
+                    // No existe, podemos crearlo
                     supplierResult = await repository.CreateAsync(supplier);
                 }
                 else
                 {
-                    //Podriamos lanzar una Excepcion 
-                    //Para notificar que el cliente ya existe.
-                    //Podriamos Crear incluso una cap de exepciones
-                    //Perzonalizada y consumirlas desde otras capas
-                    SupplierExceptions.ThrowSupplierAlreadyExistsException(supplierSearch.ContactTitle, supplierSearch.ContactName);
+                    // Lanzar excepción si el proveedor ya existe
+                    SupplierExceptions.ThrowSupplierAlreadyExistsException(supplierSearch.CompanyName , supplierSearch.ContactName);
                 }
-                return supplierResult!;
+                return supplierResult;
             }
         }
 
@@ -44,71 +42,72 @@ namespace BLL
             {
                 Supplier supplier = await repository.RetreiveAsync<Supplier>(s => s.Id == id);
 
-                // Check if customer was found
+                // Verificar si se encontró el proveedor
                 if (supplier == null)
                 {
-                    // Throw a CustomerNotFoundException (assuming you have this class)
-                    SupplierExceptions.ThrowInvalidCustomerIdException(id);
+                    // Lanzar una excepción si el proveedor no se encontró
+                    SupplierExceptions.ThrowInvalidSupplierIdException(id);
                 }
-                return supplier!;
+                return supplier;
             }
         }
-        public async Task<List<Supplier>> RetreiveAllAsync()
-        {
-            List<Supplier> Result = null;
 
-            using (var r = RepositoryFactory.CreateRepository())
-            {
-                // Define el criterio de filtro para obtener todos los clientes.
-                Expression<Func<Supplier, bool>> allSupplierCriteria = x => true;
-                Result = await r.FilterAsync<Supplier>(allSupplierCriteria);
-            }
-
-            return Result;
-        }
-        public async Task<bool> UpdateAsync(Supplier supplier)
+        public async Task<List<Supplier>> RetrieveAllAsync()
         {
-            bool Result = false;
+            List<Supplier> result = null;
+
             using (var repository = RepositoryFactory.CreateRepository())
             {
-                // Validar que el nombre del cliente no exista
-                Supplier supplierSearch = await repository.RetreiveAsync<Supplier>
-                    (s => s.ContactName == supplier.ContactName && s.Id != supplier.Id);
+                // Definir el criterio de filtro para obtener todos los proveedores.
+                Expression<Func<Supplier, bool>> allSuppliersCriteria = x => true;
+                result = await repository.FilterAsync<Supplier>(allSuppliersCriteria);
+            }
+
+            return result;
+        }
+
+        public async Task<bool> UpdateAsync(Supplier supplier)
+        {
+            bool result = false;
+            using (var repository = RepositoryFactory.CreateRepository())
+            {
+                // Validar que el nombre de la empresa no exista ya para otro proveedor en el mismo país
+                Supplier supplierSearch = await repository.RetreiveAsync<Supplier>(
+                    s => s.CompanyName == supplier.CompanyName && s.Country == supplier.Country && s.Id != supplier.Id);
+
                 if (supplierSearch == null)
                 {
-                    // No existe
-                    Result = await repository.UpdateAsync(supplier);
+                    // No existe, podemos actualizar
+                    result = await repository.UpdateAsync(supplier);
                 }
                 else
                 {
-                    // Podemos implementar alguna lógica para
-                    // indicar que no se pudo modificar
-                    SupplierExceptions.ThrowSupplierAlreadyExistsException(supplierSearch.ContactName, supplierSearch.ContactTitle);
+                    // Lanzar excepción si no se pudo modificar
+                    SupplierExceptions.ThrowSupplierAlreadyExistsException(supplierSearch.CompanyName, supplierSearch.ContactName);
                 }
             }
-            return Result;
+            return result;
         }
+
         public async Task<bool> DeleteAsync(int id)
         {
-            bool Result = false;
-            // Buscar un cliente para ver si tiene Orders (Ordenes de Compra)
-            var customer = await RetrieveByIDAsync(id);
-            if (customer != null)
+            bool result = false;
+            // Buscar un proveedor por su ID
+            var supplier = await RetrieveByIDAsync(id);
+            if (supplier != null)
             {
-                // Eliminar el cliente
+                // Eliminar el proveedor
                 using (var repository = RepositoryFactory.CreateRepository())
                 {
-                    Result = await repository.DeleteAsync(customer);
+                    result = await repository.DeleteAsync(supplier);
                 }
             }
             else
             {
-                // Podemos implementar alguna lógica
-                // para indicar que el producto no existe
-                CustomerExceptions.ThrowInvalidCustomerIdException(id);
+                // Lanzar excepción si el proveedor no existe
+                SupplierExceptions.ThrowInvalidSupplierIdException(id);
             }
-            return Result;
+            return result;
         }
     }
 }
-
