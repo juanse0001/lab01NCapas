@@ -17,7 +17,7 @@ namespace BLL.Exceptions
         {
         }
 
-        public static void ThrowProductAlreadyExistsException(string productName, int supplierId)
+        public static void ThrowProductAlreadyExistsException(string productName, int? supplierId)
         {
             throw new ProductExceptions($"A product with the name '{productName} and supplier id {supplierId} already exists.");
         }

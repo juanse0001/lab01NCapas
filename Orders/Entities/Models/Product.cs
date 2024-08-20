@@ -17,7 +17,7 @@ public partial class Product
     [StringLength(50)]
     public string ProductName { get; set; } = null!;
 
-    public int SupplierId { get; set; }
+    public int? SupplierId { get; set; }
 
     [Column(TypeName = "decimal(12, 2)")]
     public decimal? UnitPrice { get; set; }
@@ -28,7 +28,7 @@ public partial class Product
     public bool IsDiscontinued { get; set; }
 
     [InverseProperty("Product")]
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public virtual ICollection<OrderItem>? OrderItems { get; set; } = new List<OrderItem>();
 
     [ForeignKey("SupplierId")]
     [InverseProperty("Products")]
