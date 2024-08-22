@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entities.Models;
 using ProxyService.Interfaces;
-using ProxyService;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace WebApplicationOrders.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly ICustomerProxy _proxy;  
-        public CustomersController() 
+        private readonly ICustomerProxy _proxy;
+
+        public CustomersController(ICustomerProxy proxy)
         {
-            this._proxy = new CustomerProxy();
+            _proxy = proxy;
         }
- 
+
         //GET : Customer
-        public async Task <IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var customers = await _proxy.GetAllAsync();
             return View(customers);
@@ -31,20 +30,20 @@ namespace WebApplicationOrders.Controllers
         //POST Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,City,Country,Phone")]Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,City,Country,Phone")] Customer customer)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 try
                 {
                     var result = await _proxy.CreateAsync(customer);
-                    if (result == null) 
+                    if (result == null)
                     {
-                        return RedirectToAction("Error", new {message = "El cliente con el mismo nombre y apellido ya existe."});
+                        return RedirectToAction("Error", new { message = "El cliente con el mismo nombre y apellido ya existe." });
                     }
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     return RedirectToAction("Error", new { message = ex.Message });
                 }
@@ -54,22 +53,7 @@ namespace WebApplicationOrders.Controllers
 
         //Edit 
         //GET : Customers/Edit/5
-        public async Task<IActionResult> Edit(int Id)
-        {
-            var customer = await _proxy.GetByIdAsync(Id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            return View(customer);
-        }
-
-        //Delete
-
-        // GET: Customer/Delete/5
-        // O referencias
-
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var customer = await _proxy.GetByIdAsync(id);
             if (customer == null)
@@ -79,33 +63,10 @@ namespace WebApplicationOrders.Controllers
             return View(customer);
         }
 
-        // POST: Customers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        // O referencias
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            try
-            {
-                var result = await _proxy.DeleteAsync(id);
-                if (!result)
-                {
-                    return RedirectToAction("Error", new { message = "No se puede eliminar el cliente porque tiene facturas asociadas." });
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Error", new { message = ex.Message });
-            }
-        }
-
-
-
         //POST: Customer/edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, FirstName, LastName, City, Country, Phone")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,City,Country,Phone")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -130,19 +91,54 @@ namespace WebApplicationOrders.Controllers
             }
             return View(customer);
         }
-        //Details
-        //GET: /Customers/Details/5
-        public async Task<IActionResult> Details(int Id) 
+
+        //Delete
+
+        // GET: Customer/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
-            var customer = await _proxy.GetByIdAsync(Id);
-            if (customer == null) 
+            var customer = await _proxy.GetByIdAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
             return View(customer);
         }
+
+        // POST: Customers/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                var result = await _proxy.DeleteAsync(id);
+                if (!result)
+                {
+                    return RedirectToAction("Error", new { message = "No se puede eliminar el cliente porque tiene facturas asociadas." });
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Error", new { message = ex.Message });
+            }
+        }
+
+        //Details
+        //GET: /Customers/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var customer = await _proxy.GetByIdAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return View(customer);
+        }
+
         //Error
-        public IActionResult Error(string message) 
+        public IActionResult Error(string message)
         {
             ViewBag.ErrorMessage = message;
             return View();

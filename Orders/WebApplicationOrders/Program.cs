@@ -1,7 +1,16 @@
+using Entities.Models;
+using ProxyService.Interfaces;
+using ProxyService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Registro de servicios y proxies
+builder.Services.AddScoped<ICustomerProxy, CustomerProxy>();
+builder.Services.AddScoped<IProductProxy, ProductProxy>();
+builder.Services.AddScoped<ISupplierProxy, SupplierProxy>();
 
 var app = builder.Build();
 

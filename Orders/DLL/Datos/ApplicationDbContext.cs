@@ -31,68 +31,9 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<Supplier> Suppliers { get; set; }
-
-    //Configuracion de cadena de conexion para WebAplicationOrders
-/*
-      var builder = WebApplication.CreateBuilder(args);   
-
-
-// Construimos el objeto de configuración
-builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange:   
-      true)
-      .AddJsonFile($"appsettings.   {builder.Environment.EnvironmentName}.json", optional: true)
-      .AddEnvironmentVariables();   
-
-
-// ... resto de la configuración de la aplicación
-
-       var app = builder.Build();
-*/
-
-
-    //configuracion para el Console aplication
-    /*
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-            optionsBuilder.UseSqlServer(connectionString, options =>
-            {
-                options.EnableRetryOnFailure();
-            });
-        }
-    }
-    */
-
-
-    //Metodo para coneccion con appsentting.json
-    /*
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(connectionString);
-        }
-    }
-    */
-
-
       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-       => optionsBuilder.UseSqlServer("Server=BOGDFPCSRFOD124\\TEW_SQLEXPRESS;Database=orders;User ID=SA;Password=MySQL2024; TrustServerCertificate=True;");
+       => optionsBuilder.UseSqlServer("Server=DESKTOP-MVC3TKQ\\SQLEXPRESS;Database=ORDERS;User ID=SA;Password=MySQL2024; TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
