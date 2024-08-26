@@ -1,6 +1,7 @@
-using Entities.Models;
+using Microsoft.AspNetCore.Localization;
 using ProxyService.Interfaces;
 using ProxyService;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Configuración de la localización (cultura)
+var supportedCultures = new[] { new CultureInfo("es-ES") }; // Puedes ajustar esto a la cultura que prefieras
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("es-ES"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 
 app.UseRouting();
 

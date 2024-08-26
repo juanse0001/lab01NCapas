@@ -2,7 +2,7 @@
 using ProxyService.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -13,11 +13,12 @@ namespace ProxyService
     public class ProductProxy : IProductProxy
     {
         private readonly HttpClient _httpClient;
+
         public ProductProxy()
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7128/api/Customer/") // Asegúrate de que esta URL coincida con la configuración de tu servicio
+                BaseAddress = new Uri("https://localhost:7128/api/Product/") // Actualiza la URL base según tu configuración
             };
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -34,10 +35,11 @@ namespace ProxyService
                 var responseJson = await response.Content.ReadAsStringAsync();
                 return JsonSerializer.Deserialize<Product>(responseJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
-            catch (global::System.Exception ex)
+            catch (Exception ex)
             {
-                // Manejar la excepción (e.g., logging)
+                // Registra el error en lugar de solo imprimirlo en la consola
                 Console.WriteLine($"Error: {ex.Message}");
+                // También podrías lanzar una excepción personalizada
                 return null;
             }
         }
@@ -49,9 +51,8 @@ namespace ProxyService
                 var response = await _httpClient.DeleteAsync($"{id}");
                 return response.IsSuccessStatusCode;
             }
-            catch (global::System.Exception ex)
+            catch (Exception ex)
             {
-                // Manejar la excepción (e.g., logging)
                 Console.WriteLine($"Error: {ex.Message}");
                 return false;
             }
@@ -64,13 +65,12 @@ namespace ProxyService
                 var response = await _httpClient.GetAsync("");
                 response.EnsureSuccessStatusCode();
                 var json = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<Product>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return JsonSerializer.Deserialize<List<Product>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<Product>();
             }
             catch (Exception ex)
             {
-                // Manejar la excepción (e.g., logging)
                 Console.WriteLine($"Error: {ex.Message}");
-                return null;
+                return new List<Product>(); // Devuelve una lista vacía en lugar de null
             }
         }
 
@@ -83,9 +83,8 @@ namespace ProxyService
                 var json = await response.Content.ReadAsStringAsync();
                 return JsonSerializer.Deserialize<Product>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
-            catch (global::System.Exception ex)
+            catch (Exception ex)
             {
-                // Manejar la excepción (e.g., logging)
                 Console.WriteLine($"Error: {ex.Message}");
                 return null;
             }
@@ -100,9 +99,11 @@ namespace ProxyService
                 var response = await _httpClient.PutAsync($"{id}", content);
                 return response.IsSuccessStatusCode;
             }
-            catch (global::System.Exception)
+            catch (Exception ex)
             {
-                throw;
+                // Considera lanzar una excepción más específica
+                Console.WriteLine($"Error: {ex.Message}");
+                return false;
             }
         }
     }

@@ -17,10 +17,10 @@ public partial class Product
     [StringLength(50)]
     public string ProductName { get; set; } = null!;
 
-    public int? SupplierId { get; set; }
+    public int SupplierId { get; set; }
 
     [Column(TypeName = "decimal(12, 2)")]
-    public decimal? UnitPrice { get; set; }
+    public double? UnitPrice { get; set; }
 
     [StringLength(30)]
     public string? Package { get; set; }

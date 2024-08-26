@@ -10,7 +10,7 @@ namespace Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : ControllerBase //CAPA DE SERVICIOS     
     {
         private readonly Products _bll;
 
@@ -35,11 +35,12 @@ namespace Service.Controllers
             catch (Exception ex)
             {
                 // Log the exception
+                // LogError(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
             }
         }
 
-        // GET api/Product/5
+        // GET api/Product/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> RetrieveAsync(int id)
         {
@@ -61,6 +62,7 @@ namespace Service.Controllers
             catch (Exception ex)
             {
                 // Log the exception
+                // LogError(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
             }
         }
@@ -69,10 +71,15 @@ namespace Service.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> CreateAsync([FromBody] Product toCreate)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+
             try
             {
                 var product = await _bll.CreateAsync(toCreate);
-                return CreatedAtRoute(nameof(RetrieveAsync), new { id = product.Id }, product);
+                return CreatedAtAction(nameof(RetrieveAsync), new { id = product.Id }, product);
             }
             catch (ProductExceptions ex)
             {
@@ -81,14 +88,20 @@ namespace Service.Controllers
             catch (Exception ex)
             {
                 // Log the exception
+                // LogError(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
             }
         }
 
-        // PUT api/Product/5
+        // PUT api/Product/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, [FromBody] Product toUpdate)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+
             toUpdate.Id = id;
             try
             {
@@ -106,11 +119,12 @@ namespace Service.Controllers
             catch (Exception ex)
             {
                 // Log the exception
+                // LogError(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
             }
         }
 
-        // DELETE api/Product/5
+        // DELETE api/Product/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -130,6 +144,7 @@ namespace Service.Controllers
             catch (Exception ex)
             {
                 // Log the exception
+                // LogError(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
             }
         }

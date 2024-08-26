@@ -27,14 +27,14 @@ namespace WebApplicationOrders.Controllers
             return View();
         }
 
-        // POST: Products/Create
+        // POST Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProductName,SupplierId,UnitPrice,Package,IsDiscontinued")] Product product)
         {
             if (ModelState.IsValid)
             {
-                return await HandleActionAsync(async () =>
+                try
                 {
                     var result = await _proxy.CreateAsync(product);
                     if (result == null)
@@ -42,10 +42,15 @@ namespace WebApplicationOrders.Controllers
                         return RedirectToAction("Error", new { message = "El producto con el mismo nombre ya existe para el proveedor seleccionado." });
                     }
                     return RedirectToAction(nameof(Index));
-                }, product);
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error", new { message = ex.Message });
+                }
             }
             return View(product);
         }
+
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int id)
@@ -128,6 +133,7 @@ namespace WebApplicationOrders.Controllers
             return View();
         }
 
+        // Encapsular manejo de excepciones
         private async Task<IActionResult> HandleActionAsync(Func<Task<IActionResult>> action, object model = null)
         {
             try
@@ -136,6 +142,7 @@ namespace WebApplicationOrders.Controllers
             }
             catch (Exception ex)
             {
+                // Aquí podrías añadir registro de errores
                 return RedirectToAction("Error", new { message = ex.Message });
             }
         }

@@ -1,14 +1,16 @@
-﻿@model List<Entities.Models.Product>
+﻿@model IEnumerable<Entities.Models.Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
 
 <h1>Product List</h1>
-@{
-    ViewData["Title"] = "Product";
-}
+
 <p>
     <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Create Product</a>
 </p>
 
-<table class="table">
+<table id="productTable" class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>ID</th>
@@ -17,7 +19,7 @@
             <th>Unit Price</th>
             <th>Package</th>
             <th>Is Discontinued</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -39,3 +41,20 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthChange": true,
+                "pageLength": 10
+            });
+        });
+    </script>
+}
