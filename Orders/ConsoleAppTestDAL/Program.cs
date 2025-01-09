@@ -18,7 +18,7 @@ namespace ConsoleAppTestDAL
             //UpdateAsync().GetAwaiter().GetResult();
             //await UpdateAsync.ConfigureAwait(false);
             //await FilterAsync().ConfigureAwait(false);
-            await DeleteAsync().ConfigureAwait(false);
+            //await DeleteAsync().ConfigureAwait(false);
 
         }
         static async Task CreateAsync()

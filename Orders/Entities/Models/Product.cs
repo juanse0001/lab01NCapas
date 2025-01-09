@@ -20,17 +20,22 @@ public partial class Product
     public int SupplierId { get; set; }
 
     [Column(TypeName = "decimal(12, 2)")]
-    public decimal? UnitPrice { get; set; }
+    public double? UnitPrice { get; set; }
 
     [StringLength(30)]
     public string? Package { get; set; }
 
-    public bool IsDiscontinued { get; set; }
+    public bool? IsDiscontinued { get; set; }
 
     [InverseProperty("Product")]
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public virtual ICollection<OrderItem>? OrderItems { get; set; } = new List<OrderItem>();
 
     [ForeignKey("SupplierId")]
     [InverseProperty("Products")]
-    public virtual Supplier Supplier { get; set; } = null!;
+    public virtual Supplier? Supplier { get; set; } = null!;
+
+    public Product()
+    {
+        this.IsDiscontinued = false;
+    }
 }
