@@ -110,6 +110,5 @@ namespace BLL
             }
             return Result;
         }
-
     }
 }
