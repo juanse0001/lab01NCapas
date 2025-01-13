@@ -1,22 +1,262 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #f8f9fa, #e9ecef);
+    color: #333;
 }
+
+h1 {
+    color: #333;
+    font-weight: bold;
+}
+
+.carousel {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+    .carousel .carousel-inner {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+.carousel-caption {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+    .carousel-caption h5 {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .carousel-caption p {
+        font-size: 1rem;
+        font-weight: normal;
+    }
+
+button.carousel-control-prev,
+button.carousel-control-next {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+button.carousel-control-prev-icon,
+button.carousel-control-next-icon {
+    filter: invert(1);
+}
+
+@media (max-width: 768px) {
+    .carousel-caption h5 {
+        font-size: 1.2rem;
+    }
+
+    .carousel-caption p {
+        font-size: 0.9rem;
+    }
+}
+
+/* CSS personalizado */
+footer {
+    background-color: #000; /* Negro */
+    color: #fff; /* Blanco */
+    text-align: center; /* Centrado */
+    padding: 20px 0; /* Espaciado */
+    margin-top: 50px; /* Separación superior */
+}
+
+    footer a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+        footer a:hover {
+            color: #ddd; /* Color al pasar el cursor */
+        }
+
+.navbar.navbar-expand-sm {
+    background-color: #343a40 !important;
+}
+
+    .navbar .nav-link {
+        color: white !important; /* Color blanco para los enlaces */
+        font-weight: 600; /* Peso de la fuente */
+        text-transform: uppercase; /* Mayúsculas */
+    }
+
+        .navbar .nav-link:hover {
+            color: #ffc107 !important; /* Amarillo cuando pasas el cursor */
+            background-color: rgba(0, 0, 0, 0.1); /* Fondo ligero al pasar el cursor */
+            border-radius: 5px; /* Esquinas redondeadas */
+        }
+
+.navbar-brand {
+    font-size: 1.8rem; /* Tamaño de fuente más grande */
+    color: white !important; /* Blanco para el texto del logo */
+}
+
+.navbar-toggler {
+    background-color: #ffc107; /* Color del botón del menú */
+}
+
+.navbar-toggler-icon {
+    background-color: #fff; /* Color del icono del menú */
+}
+
+
+Siguiendo el estilo actual de tu página, que incluye colores suaves, elegantes y con un enfoque en tonos neutros y algunos acentos en colores vivos, te recomiendo los siguientes ajustes para que el contenido sea armonioso y visualmente atractivo.
+
+Aquí tienes algunas sugerencias para mejorar los colores de los elementos, con base en el estilo que estás utilizando:
+
+Colores principales: Acentuar la experiencia con tonos de azul suave, gris oscuro y amarillo. Estos colores crean un contraste agradable sin resultar demasiado agresivos.
+Destacar elementos importantes: Mantener el azul como color vibrante, pero con un fondo suave o más oscuro para resaltar mejor el texto.
+Fragmento actualizado de código CSS:
+css
+Copiar código
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #f8f9fa, #e9ecef);
+    color: #333;
+}
+
+h1 {
+    color: #333;
+    font-weight: bold;
+}
+
+.carousel {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+    .carousel .carousel-inner {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+.carousel-caption {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+    .carousel-caption h5 {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .carousel-caption p {
+        font-size: 1rem;
+        font-weight: normal;
+    }
+
+button.carousel-control-prev,
+button.carousel-control-next {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+button.carousel-control-prev-icon,
+button.carousel-control-next-icon {
+    filter: invert(1);
+}
+
+@media (max-width: 768px) {
+    .carousel-caption h5 {
+        font-size: 1.2rem;
+    }
+
+    .carousel-caption p {
+        font-size: 0.9rem;
+    }
+}
+
+/* CSS personalizado */
+footer {
+    background-color: #343a40; /* Gris oscuro */
+    color: #fff; /* Blanco */
+    text-align: center; /* Centrado */
+    padding: 20px 0; /* Espaciado */
+    margin-top: 50px; /* Separación superior */
+}
+
+    footer a {
+        color: #ffc107; /* Amarillo para los enlaces */
+        text-decoration: none;
+    }
+
+        footer a:hover {
+            color: #ddd; /* Color al pasar el cursor */
+        }
+
+.navbar.navbar-expand-sm {
+    background-color: #495057; /* Gris medio para la barra de navegación */
+}
+
+.navbar .nav-link {
+    color: #fff !important; /* Color blanco para los enlaces */
+    font-weight: 600; /* Peso de la fuente */
+    text-transform: uppercase; /* Mayúsculas */
+}
+
+    .navbar .nav-link:hover {
+        color: #ffc107 !important; /* Amarillo al pasar el cursor */
+        background-color: rgba(0, 0, 0, 0.1); /* Fondo ligero */
+        border-radius: 5px;
+    }
+
+.navbar-brand {
+    font-size: 1.8rem; /* Tamaño de fuente más grande */
+    color: #fff !important; /* Blanco para el texto del logo */
+}
+
+.navbar-toggler {
+    background-color: #ffc107; /* Color del botón del menú */
+}
+
+.navbar-toggler-icon {
+    background-color: #fff; /* Color del icono del menú */
+}
+
+/* Estilos para la descripción de la página */
+.highlighted-text {
+    font-size: 1.2rem; /* Tamaño de fuente mayor */
+    font-weight: bold; /* Negrita */
+    color: #0069d9; /* Azul brillante para resaltar */
+    background-color: rgba(0, 105, 217, 0.1); /* Fondo azul claro */
+    padding: 15px; /* Espaciado alrededor del texto */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    margin-top: 20px; /* Espaciado superior */
+    max-width: 90%; /* Limitar el ancho */
+    margin-left: auto; /* Centrado automático */
+    margin-right: auto; /* Centrado automático */
+}
+
+    .highlighted-text:hover {
+        color: #ffffff; /* Cambia el color del texto a blanco al pasar el cursor */
+        background-color: #0069d9; /* Fondo azul más intenso al pasar el cursor */
+        cursor: pointer; /* Cambia el cursor para indicar interactividad */
+        transition: all 0.3s ease-in-out; /* Transición suave */
+    }
+
